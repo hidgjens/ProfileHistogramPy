@@ -24,18 +24,12 @@ def PlotProfileHistogram(x_data, y_data, nbins='auto', x_label: str = None, y_la
     # values range from 1 to number of bins
     bin_indices_for_xdata = np.digitize(x_data, bin_edges_without_last)
 
-    # print(f"MIN: {np.min(bin_indices_for_xdata)}")
-    # print(f"MAX: {np.max(bin_indices_for_xdata)}")
-
     binned_y_values = [[] for _bin in bin_edges_without_last]
 
     for bin_index, y_val in zip(bin_indices_for_xdata, y_data):
         #   add y value to appropriate bin
         binned_y_values[bin_index - 1].append(y_val)
 
-    # print([bin_y for bin_y in binned_y_values])
-
-    # print("debug breakpoint")
 
     binned_y_values_mean = [np.mean(y_bin) for y_bin in binned_y_values]
     binned_y_values_rms = [np.std(y_bin) for y_bin in binned_y_values]
@@ -78,7 +72,7 @@ def PlotProfileHistogram(x_data, y_data, nbins='auto', x_label: str = None, y_la
 
     #   plot
     cap_size = 4
-    fig, axes = plt.subplots()  # (ncols=6, nrows=1, figsize=(21, 5))
+    fig, axes = plt.subplots()
     axes.plot(x_theory, y_theory, color="blue", marker='', linestyle='-')
     axes.errorbar(x_value_of_bins, binned_y_values_mean,
                   xerr=half_width_of_bins, ecolor='k', fmt='k+', capsize=cap_size)
@@ -86,8 +80,6 @@ def PlotProfileHistogram(x_data, y_data, nbins='auto', x_label: str = None, y_la
                   ecolor='r', fmt=' ', capsize=cap_size, label='rms')
     axes.errorbar(x_value_of_bins, binned_y_values_mean, yerr=binned_y_values_error,
                   ecolor='g', fmt=' ', capsize=0.5 * cap_size, label='error')
-    # axes.plot(x_theory, y_theory)
-#    axes.set_title(plot_title)
     axes.set_xlabel(x_label)
     axes.set_ylabel(y_label)
 
